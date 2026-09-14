@@ -1,0 +1,3 @@
+import {rawDb} from '@/db';
+import {env} from 'cloudflare:workers';
+export async function GET(req:Request){const key=(env as unknown as {ADMIN_KEY?:string}).ADMIN_KEY;if(!key||req.headers.get('authorization')!=='Bearer '+key)return Response.json({error:'访问码不正确'},{status:401});try{const rows=await rawDb().prepare('SELECT store,language,event,platform,COUNT(*) AS count FROM share_events GROUP BY store,language,event,platform ORDER BY store,language,count DESC').all();return Response.json(rows.results,{headers:{'Cache-Control':'no-store'}})}catch{return Response.json({error:'统计暂时不可用，请重试'},{status:503})}}
