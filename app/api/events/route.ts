@@ -1,2 +1,17 @@
-import {rawDb} from '@/db';
-export async function POST(req:Request){try{if(req.headers.get('origin')!==new URL(req.url).origin)return new Response(null,{status:403});const b=await req.json() as Record<string,string>;if(!b||typeof b!=="object")return new Response(null,{status:400});if(!['zh','en'].includes(b.language)||!['language','platform'].includes(b.event)||typeof b.store!=='string'||b.store.length>80||!/^[a-zA-Z0-9_-]+$/.test(b.store)||!(b.event==='language'?b.platform==='':(b.language==='zh'?['小红书','大众点评']:['Instagram','TikTok','X']).includes(b.platform)))return new Response(null,{status:400});await rawDb().prepare('INSERT INTO share_events (event,language,platform,store,created_at) VALUES (?,?,?,?,?)').bind(b.event,b.language,b.platform,b.store,new Date().toISOString()).run();return new Response(null,{status:204})}catch(e){console.error('Analytics write failed',e);return new Response(null,{status:503})}}
+import { rawDb } from '@/db';
+import { validEvent } from '@/lib/share-config';
+
+export async function POST(req: Request) {
+  if (req.headers.get('origin') !== new URL(req.url).origin) return new Response(null, { status: 403 });
+  let value: unknown;
+  try { value = await req.json(); } catch { return new Response(null, { status: 400 }); }
+  if (!validEvent(value)) return new Response(null, { status: 400 });
+  try {
+    await rawDb().prepare('INSERT INTO share_events (event,language,platform,store,created_at) VALUES (?,?,?,?,?)')
+      .bind(value.event, value.language, value.platform, value.store, new Date().toISOString()).run();
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    console.error('Analytics write failed', error);
+    return new Response(null, { status: 503 });
+  }
+}

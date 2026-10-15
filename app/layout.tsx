@@ -3,10 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "airweave · Share your experience",
-  description: "Share your airweave experience. 中文 · English. Post and receive a Sleep Omamori.",
-  other: {
-    "codex-preview": "development",
-  },
+  description: "Share your airweave experience. 中文 · English · 日本語. Post and receive a Sleep Omamori.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
