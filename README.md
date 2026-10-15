@@ -2,9 +2,9 @@
 
 面向门店扫码访客的中英日三语分享网站。
 
-**打开网站：[Share your airweave experience](https://airweave-share-experience.scarlettmind666.chatgpt.site)**
+**打开网站：[Share your airweave experience](https://airweave-share.scarlettmind666.workers.dev)**
 
-**银座三越门店入口：[Ginza Mitsukoshi](https://airweave-share-experience.scarlettmind666.chatgpt.site/?store=ginza-mitsukoshi)**
+**银座三越门店入口：[Ginza Mitsukoshi](https://airweave-share.scarlettmind666.workers.dev/?store=ginza-mitsukoshi)**
 
 ## 访客流程
 
@@ -45,6 +45,8 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 仅对尚未应用此迁移的本地数据库执行以上迁移命令。
 
 ## 托管
+
+当前线上版本部署在 Cloudflare Workers（Worker：`airweave-share`，D1：`airweave-share-db`）。在 Mac 终端运行 `./deploy-cloudflare.sh` 可重新构建并部署。旧的 chatgpt.site 版本已停止更新。
 
 当前线上版本由 Sites 托管，使用 Vinext / React 和 Cloudflare Workers / D1。GitHub 仓库用于代码分享；推送到 GitHub 不会自动更新当前网站。GitHub Pages 只支持静态内容，不能直接运行本项目的统计接口和后台。
 
