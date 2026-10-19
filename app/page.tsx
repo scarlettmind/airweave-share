@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowUpRight, ArrowLeft, Copy, Check, Gift, Globe2, MapPin, Camera, Images, Share2, X } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, Copy, Check, Globe2, MapPin, Camera, Images, Share2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { tags, languageNames, platforms, platformNames, platformUrl, storeId, validatePhotos, type Language, type PlatformId } from '@/lib/share-config';
 import { copyText } from '@/lib/share-text';
@@ -166,8 +166,6 @@ export default function Home() {
           <small className="manual">{t.fallback}</small>
         </div>}
       </>}
-      <div className="gift-note"><span className="gift-icon"><Gift size={23} /></span><div><strong>{t.gift}</strong><p>{t.giftDetail}</p></div></div>
-      {selected && <p className="staff-note">{t.staff}</p>}
       {store !== 'unassigned' && <div className="store"><MapPin size={13} />{store === 'ginza-mitsukoshi' ? lang === 'ja' ? '銀座三越' : 'Ginza Mitsukoshi' : store}</div>}
     </main><footer><span>{t.footer}</span><span>airweave</span></footer>
   </div>;
