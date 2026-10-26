@@ -1,9 +1,9 @@
 export type Language = 'zh' | 'en' | 'ja';
 export type PlatformId = 'red' | 'dianping' | 'instagram' | 'tiktok' | 'x';
 export const tags: Record<Language, string> = {
-  zh: '#爱维福 #airweave #日本旅行',
-  en: '#airweave #SleepWell #JapanTravel',
-  ja: '#エアウィーヴ #airweave #快眠',
+  zh: '#爱维福 #airweave #日本旅行 #快眠御守',
+  en: '#airweave #SleepWell #JapanTravel #airweaveOmamori',
+  ja: '#エアウィーヴ #airweave #快眠 #快眠御守',
 };
 export const languageNames = { zh: '中文', en: 'English', ja: '日本語' };
 export const platformNames: Record<PlatformId, string> = { red: '小红书', dianping: '大众点评', instagram: 'Instagram', tiktok: 'TikTok', x: 'X' };
