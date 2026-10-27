@@ -47,7 +47,7 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 
 当前线上版本部署在 Cloudflare Workers（Worker：`airweave-share`，D1：`airweave-share-db`）。在 Mac 终端运行 `./deploy-cloudflare.sh` 可重新构建并部署。旧的 chatgpt.site 版本已停止更新。
 
-当前线上版本由 Sites 托管，使用 Vinext / React 和 Cloudflare Workers / D1。GitHub 仓库用于代码分享；推送到 GitHub 不会自动更新当前网站。GitHub Pages 只支持静态内容，不能直接运行本项目的统计接口和后台。
+网站使用 Vinext / React 和 Cloudflare Workers / D1。GitHub 仓库用于代码分享；推送到 GitHub 不会自动更新当前网站。GitHub Pages 只支持静态内容，不能直接运行本项目的统计接口和后台。
 
 `.openai/hosting.json` 中的项目标识属于当前网站。复制项目用于另一个网站时，应注册自己的托管项目和数据库，并设置自己的 `ADMIN_KEY`。
 
@@ -76,10 +76,12 @@ npm run build
 
 ## 门店二维码与扫码统计
 
-- 银座三越：`https://airweave-share-experience.scarlettmind666.chatgpt.site/?store=ginza-mitsukoshi`
-- 松屋银座：`https://airweave-share-experience.scarlettmind666.chatgpt.site/?store=matsuya-ginza`
-- 大阪心斋桥：`https://airweave-share-experience.scarlettmind666.chatgpt.site/?store=osaka_shinsaibashi`
+- 银座三越：`https://airweave-share.scarlettmind666.workers.dev/?store=ginza-mitsukoshi`
+- 松屋银座：`https://airweave-share.scarlettmind666.workers.dev/?store=matsuya-ginza`
+- 大阪心斋桥：`https://airweave-share.scarlettmind666.workers.dev/?store=osaka_shinsaibashi`
 
 自 2026-10-27 起，页面加载后记录 scan 事件，后台 /admin 按门店展示累计扫码访问。成功记录后，同一浏览器标签页、同一门店 30 分钟内刷新不重复计数；不同门店独立计数。失败不会写入去重标记，下次打开可重试。浏览器禁用存储时无法持久去重，断网或拦截统计会漏计。链接访问与实际扫码无法区分；不是独立人数或已发布帖子数。未提供 store 参数的访问归为 unassigned。历史数据无法补算扫码访问。
 
-二维码交付文件位于 outputs/store-qr/（PNG 与 SVG），生成后用独立解码器核对网址。此功能复用现有 share_events 表，无需数据库迁移。
+二维码交付文件位于 outputs/store-qr-cloudflare/（PNG 与 SVG），生成后用独立解码器核对网址。此功能复用现有 share_events 表，无需数据库迁移。
+
+2026-10-27 切换至 workers.dev：旧 Sites 的 113 条已有事件以 source-id 收据去重导入现有 D1，保留原时间戳。原站仍保留，迁移后旧二维码新增访问不会自动同步，请更换为 outputs/airweave-store-qr-cloudflare.zip 内的新二维码。

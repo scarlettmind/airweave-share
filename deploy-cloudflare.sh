@@ -22,7 +22,7 @@ db_id() { $WR d1 list --json 2>/dev/null | node -e 'let s="";process.stdin.on("d
 ID="$(db_id)"
 if [ -z "$ID" ]; then $WR d1 create "$DB" >/dev/null; ID="$(db_id)"; fi
 [ -n "$ID" ] || { echo "✗ 无法取得数据库 ID"; exit 1; }
-node -e 'const f=process.argv[1],c=JSON.parse(require("fs").readFileSync(f));c.name=process.argv[2];c.d1_databases=[{binding:"DB",database_name:process.argv[3],database_id:process.argv[4]}];require("fs").writeFileSync(f,JSON.stringify(c))' "$CONFIG" "$NAME" "$DB" "$ID"
+node -e 'const f=process.argv[1],c=JSON.parse(require("fs").readFileSync(f));c.name=process.argv[2];c.preview_urls=false;c.d1_databases=[{binding:"DB",database_name:process.argv[3],database_id:process.argv[4]}];require("fs").writeFileSync(f,JSON.stringify(c))' "$CONFIG" "$NAME" "$DB" "$ID"
 if ! $WR d1 execute "$DB" --remote --config "$CONFIG" --json --command "SELECT name FROM sqlite_master WHERE name='share_events'" 2>/dev/null | grep -q share_events; then
   $WR d1 execute "$DB" --remote --config "$CONFIG" --yes --file drizzle/0000_mysterious_whiplash.sql
 fi
