@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { ArrowUpRight, ArrowLeft, Copy, Check, Globe2, MapPin, Camera, Images, Share2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { tags, languageNames, platforms, platformNames, platformUrl, storeId, validatePhotos, type Language, type PlatformId } from '@/lib/share-config';
+import { tags, storeNames, languageNames, platforms, platformNames, platformUrl, storeId, validatePhotos, type Language, type PlatformId } from '@/lib/share-config';
 import { copyText } from '@/lib/share-text';
 import { writeHashtags } from '@/lib/share-copy';
+import { recordScan } from '@/lib/share-analytics';
 
 type CopyState = 'idle' | 'pending' | 'copied' | 'blocked';
 type ShareState = 'idle' | 'unsupported' | 'cancelled' | 'shared' | 'shareFailed' | 'noPhotos';
@@ -42,7 +43,9 @@ export default function Home() {
   const withPlatform = (value: string) => value.replace('{platform}', currentName);
 
   useEffect(() => {
-    setStore(storeId(location.search));
+    const sourceStore = storeId(location.search);
+    setStore(sourceStore);
+    void recordScan(sourceStore);
     setFileSharingSupported(typeof navigator.share === 'function' && typeof navigator.canShare === 'function');
   }, []);
   useEffect(() => { document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang ?? 'en'; }, [lang]);
@@ -166,7 +169,7 @@ export default function Home() {
           <small className="manual">{t.fallback}</small>
         </div>}
       </>}
-      {store !== 'unassigned' && <div className="store"><MapPin size={13} />{store === 'ginza-mitsukoshi' ? lang === 'ja' ? '銀座三越' : 'Ginza Mitsukoshi' : store}</div>}
+      {store !== 'unassigned' && <div className="store"><MapPin size={13} />{storeNames[store] ?? store}</div>}
     </main><footer><span>{t.footer}</span><span>airweave</span></footer>
   </div>;
 }

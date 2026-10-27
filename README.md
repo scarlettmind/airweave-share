@@ -73,3 +73,13 @@ npm run build
 ```
 
 测试覆盖重复写剪贴板、权限拒绝与降级、语言与平台组合校验、门店参数和图片限制。单元测试模拟浏览器接口；手机相册、相机和目标 App 的原生流程仍须实机验收。
+
+## 门店二维码与扫码统计
+
+- 银座三越：`https://airweave-share-experience.scarlettmind666.chatgpt.site/?store=ginza-mitsukoshi`
+- 松屋银座：`https://airweave-share-experience.scarlettmind666.chatgpt.site/?store=matsuya-ginza`
+- 大阪心斋桥：`https://airweave-share-experience.scarlettmind666.chatgpt.site/?store=osaka_shinsaibashi`
+
+自 2026-10-27 起，页面加载后记录 scan 事件，后台 /admin 按门店展示累计扫码访问。成功记录后，同一浏览器标签页、同一门店 30 分钟内刷新不重复计数；不同门店独立计数。失败不会写入去重标记，下次打开可重试。浏览器禁用存储时无法持久去重，断网或拦截统计会漏计。链接访问与实际扫码无法区分；不是独立人数或已发布帖子数。未提供 store 参数的访问归为 unassigned。历史数据无法补算扫码访问。
+
+二维码交付文件位于 outputs/store-qr/（PNG 与 SVG），生成后用独立解码器核对网址。此功能复用现有 share_events 表，无需数据库迁移。

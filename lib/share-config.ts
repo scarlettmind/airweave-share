@@ -16,9 +16,10 @@ export function storeId(search: string) {
   const value = new URLSearchParams(search).get('store');
   return value && /^[a-zA-Z0-9_-]{1,80}$/.test(value) ? value : 'unassigned';
 }
-export function validEvent(value: unknown): value is { event: 'language' | 'platform'; language: Language; platform: string; store: string } {
+export function validEvent(value: unknown): value is { event: 'scan' | 'language' | 'platform'; language: Language | ''; platform: string; store: string } {
   if (!value || typeof value !== 'object') return false;
   const b = value as Record<string, unknown>;
+  if (b.event === 'scan') return b.language === '' && b.platform === '' && typeof b.store === 'string' && /^[a-zA-Z0-9_-]{1,80}$/.test(b.store);
   if (typeof b.language !== 'string' || !Object.hasOwn(platforms, b.language) || typeof b.store !== 'string' || !/^[a-zA-Z0-9_-]{1,80}$/.test(b.store)) return false;
   if (b.event === 'language') return b.platform === '';
   return b.event === 'platform' && platforms[b.language as Language].some(id => platformNames[id] === b.platform);
@@ -30,3 +31,5 @@ export function validatePhotos(files: File[]): 'type' | 'size' | 'count' | null 
   if (files.some(f => f.size > 20 * 1024 * 1024) || files.reduce((sum, f) => sum + f.size, 0) > 60 * 1024 * 1024) return 'size';
   return null;
 }
+
+export const storeNames: Record<string, string> = { 'ginza-mitsukoshi': 'Ginza Mitsukoshi / 銀座三越', 'matsuya-ginza': 'Matsuya Ginza / 松屋銀座', 'osaka_shinsaibashi': 'Osaka Shinsaibashi / 大阪心斎橋' };
