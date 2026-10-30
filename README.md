@@ -1,3 +1,7 @@
+## Company static hosting + GA4 / GTM
+
+Digital team: use `npm run build:static`, then upload `dist-static/`. See [static deployment and analytics setup](docs/STATIC-DEPLOYMENT.md). No backend is required for this build. GA4/GTM must be configured by Digital before launch. The existing Cloudflare deployment retains its analytics during handoff.
+
 # airweave · Share your experience
 
 面向门店扫码访客的中英日三语分享网站。
