@@ -51,3 +51,5 @@ next-env.d.ts
 /dist-static/
 
 /static-site/public/airweave-logo.png
+
+/dist-single/

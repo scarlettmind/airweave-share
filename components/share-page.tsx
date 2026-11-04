@@ -22,7 +22,7 @@ function PhotoPreview({ file, index, lang, onRemove }: { file: File; index: numb
   </div>;
 }
 
-export default function SharePage({ analytics, assetBase = '/' }: { analytics: ShareAnalytics; assetBase?: string }) {
+export default function SharePage({ analytics, assetBase = '/', logoSrc }: { analytics: ShareAnalytics; assetBase?: string; logoSrc?: string }) {
   const [lang, setLang] = useState<Language | null>(null);
   const [selected, setSelected] = useState<PlatformId | null>(null);
   const [copyState, setCopyState] = useState<CopyState>('idle');
@@ -123,7 +123,7 @@ export default function SharePage({ analytics, assetBase = '/' }: { analytics: S
   }
 
   return <div className="site">
-    <header><a className="brand-logo" href={assetBase + (store === 'unassigned' ? '' : '?store=' + encodeURIComponent(store))} aria-label="airweave"><img src={assetBase + "airweave-logo.png"} alt="airweave" width={802} height={678} /></a><span className="header-note">{t.tagline}</span></header>
+    <header><a className="brand-logo" href={assetBase + (store === 'unassigned' ? '' : '?store=' + encodeURIComponent(store))} aria-label="airweave"><img src={logoSrc ?? assetBase + "airweave-logo.png"} alt="airweave" width={802} height={678} /></a><span className="header-note">{t.tagline}</span></header>
     <main className={lang ? 'sharing-main' : 'welcome-main'}>
       <div className="eyebrow">{t.eyebrow}</div>
       {!lang ? <>

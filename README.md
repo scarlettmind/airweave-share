@@ -1,3 +1,7 @@
+## Single HTML / 単一HTML版
+
+For one-file uploads, run `npm run build:single` and upload only `dist-single/index.html`. See [single HTML instructions](docs/SINGLE-HTML.md).
+
 ## Company static hosting + GA4 / GTM
 
 Digital team: use `npm run build:static`, then upload `dist-static/`. See [static deployment and analytics setup](docs/STATIC-DEPLOYMENT.md). No backend is required for this build. GA4/GTM must be configured by Digital before launch. The existing Cloudflare deployment retains its analytics during handoff.
